@@ -1,0 +1,83 @@
+
+              Yelp JSON file
+                    │
+                    ▼
+             Python Producer
+                    │
+             read line
+                    │
+                    ▼
+             json.loads()
+                    │
+                    ▼
+              Python dict
+                    │
+                    ▼
+              Pandas DataFrame
+                    │
+                    ▼
+             dict / record
+                    │
+                    ▼
+             json.dumps()
+                    │
+                    ▼
+              UTF-8 bytes
+                    │
+                    ▼
+          ┌──────────────────┐
+          │    TCP Socket    │
+          │  127.0.0.1:9999 │
+          └────────┬─────────┘
+                   │
+                   │ TCP
+                   ▼
+          Spark Streaming
+
+
+
+
+And there are 4 things in this code you should remember
+1. TCP server lifecycle
+socket()
+   ↓
+bind()
+   ↓
+listen()
+   ↓
+accept()
+   ↓
+send()
+   ↓
+close()
+
+That's the fundamental TCP server pattern.
+
+2. TCP transmits bytes
+Python object
+    ↓
+JSON
+    ↓
+UTF-8
+    ↓
+bytes
+    ↓
+TCP
+3. TCP doesn't understand records
+
+The application creates the boundary:
+
+record\n
+record\n
+record\n
+4. This is a simulated stream
+
+The Yelp dataset is historical.
+
+The author creates the appearance of real-time data by:
+
+time.sleep(5)
+
+
+
+
