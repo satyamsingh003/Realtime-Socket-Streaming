@@ -3,7 +3,7 @@ import socket
 import time
 import pandas as pd
 
-def send_data_over_socket(file_path,host='127.0.0.1',port=9999,chunk_size=2):
+def send_data_over_socket(file_path,host='127.0.0.1',port=9999,chunk_size=5):
     s=socket.socket(socket.AF_INET,socket.SOCK_STREAM) # Create an IPV4 TCP socket
     s.bind((host,port))  # s.bind(("127.0.0.1", 9999))
     s.listen(1) # ready to connect and by 1 means it can hold maximum of 1 connection
@@ -24,7 +24,7 @@ def send_data_over_socket(file_path,host='127.0.0.1',port=9999,chunk_size=2):
                     chunk=pd.DataFrame(records)  # it convert hte json file in the tabular form
                     print(chunk)
                     for record in chunk.to_dict(orient='records'):
-                        serialize_data=json.dumps(record).encode('ut-8')   # it convert the json object into string and then into bytes
+                        serialize_data=json.dumps(record).encode('utf-8')   # it convert the json object into string and then into bytes
                         conn.send(serialize_data+b'\n')  # all the records are separated by \n so that tcp could know each decord different as it understand only bytes
                         time.sleep(5)
                         last_sent_index+=1
